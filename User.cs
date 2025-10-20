@@ -17,25 +17,24 @@ namespace ArtisanMarketplace.Models
             IsVerified = false;
         }
 
-        // Override Id to use Guid instead of string
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override Guid Id { get; set; }
 
-        // Email is already in IdentityUser, but we'll add validation
+
         [Required]
         [EmailAddress]
         [StringLength(256)]
         public override string Email { get; set; } = string.Empty;
 
-        // Phone number validation (IdentityUser already has PhoneNumber)
         [Phone]
         [StringLength(17)]
         [RegularExpression(@"^\+?1?\d{9,15}$", 
             ErrorMessage = "Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")]
         public override string? PhoneNumber { get; set; }
 
-        // Additional User Properties
+        
         [Required]
         [StringLength(255)]
         [Display(Name = "Full Name")]
@@ -51,7 +50,7 @@ namespace ArtisanMarketplace.Models
         [Display(Name = "Last Updated")]
         public DateTime LastUpdated { get; set; }
 
-        // IsActive (custom property, different from IdentityUser.LockoutEnabled)
+        
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
 
