@@ -14,13 +14,11 @@ namespace ArtisanMarketplace.Data
         public DbSet<Reaction> Reactions { get; set; }
         public DbSet<Report> Reports { get; set; }
         
-        // Add your other DbSets here (User, UserFeed, ArtisanFeed, etc.)
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // ==================== Comment Configuration ====================
             
             modelBuilder.Entity<Comment>(entity =>
             {
@@ -41,7 +39,6 @@ namespace ArtisanMarketplace.Data
                       .HasForeignKey(c => c.UserFeedId)
                       .OnDelete(DeleteBehavior.Cascade);
 
-                // ArtisanFeed relationship (optional)
                 entity.HasOne(c => c.ArtisanFeed)
                       .WithMany(af => af.Comments)
                       .HasForeignKey(c => c.ArtisanFeedId)
