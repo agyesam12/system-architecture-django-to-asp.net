@@ -4,10 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ArtisanMarketplace.Models
 {
-    /// <summary>
-    /// Extended User model inheriting from IdentityUser
-    /// Serves as the base authentication model for all users in the Artisan-User Marketplace
-    /// </summary>
+    
     [Table("Users")]
     public class User : IdentityUser<Guid>
     {
