@@ -3,10 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ArtisanMarketplace.Models
 {
-    /// <summary>
-    /// Showcase of completed works by artisans
-    /// Portfolio to demonstrate skills and experience
-    /// </summary>
+
     [Table("ArtisanWorks")]
     [Index(nameof(Slug), IsUnique = true)]
     [Index(nameof(ArtisanId), nameof(CreatedAt))]
@@ -163,10 +160,7 @@ namespace ArtisanMarketplace.Models
         }
     }
 
-    /// <summary>
-    /// Additional images for artisan work portfolio
-    /// Supports multiple images per work showcase
-    /// </summary>
+
     [Table("ArtisanWorkImages")]
     [Index(nameof(WorkId), nameof(Order))]
     public class ArtisanWorkImage
@@ -212,9 +206,7 @@ namespace ArtisanMarketplace.Models
         }
     }
 
-    /// <summary>
-    /// Constants for Project Status
-    /// </summary>
+    
     public static class ProjectStatuses
     {
         public const string Completed = "COMPLETED";

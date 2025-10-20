@@ -99,8 +99,6 @@ namespace ArtisanMarketplace.Data
                       .HasConversion<string>();
             });
 
-
-            // ==================== Report Configuration ====================
             
             modelBuilder.Entity<Report>(entity =>
             {
@@ -115,37 +113,35 @@ namespace ArtisanMarketplace.Data
                       .HasForeignKey(r => r.ReporterId)
                       .OnDelete(DeleteBehavior.Cascade);
 
-                // UserFeed relationship (optional)
+
                 entity.HasOne(r => r.UserFeed)
                       .WithMany(uf => uf.Reports)
                       .HasForeignKey(r => r.UserFeedId)
                       .OnDelete(DeleteBehavior.Cascade);
 
-                // ArtisanFeed relationship (optional)
+                
                 entity.HasOne(r => r.ArtisanFeed)
                       .WithMany(af => af.Reports)
                       .HasForeignKey(r => r.ArtisanFeedId)
                       .OnDelete(DeleteBehavior.Cascade);
 
-                // Comment relationship (optional)
                 entity.HasOne(r => r.Comment)
                       .WithMany(c => c.Reports)
                       .HasForeignKey(r => r.CommentId)
                       .OnDelete(DeleteBehavior.Cascade);
 
-                // ReportedUser relationship (optional)
                 entity.HasOne(r => r.ReportedUser)
                       .WithMany()
                       .HasForeignKey(r => r.ReportedUserId)
-                      .OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete
+                      .OnDelete(DeleteBehavior.Restrict); 
 
-                // ReviewedBy relationship (optional)
+            
                 entity.HasOne(r => r.ReviewedBy)
                       .WithMany()
                       .HasForeignKey(r => r.ReviewedById)
                       .OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete
 
-                // Convert enums to strings in database
+
                 entity.Property(r => r.Reason)
                       .HasConversion<string>();
 
