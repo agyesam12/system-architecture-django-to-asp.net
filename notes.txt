@@ -1,0 +1,2 @@
+Different user types based on roles and permissions.
+Feeds should be universal, whether plumber or user should be able to add a feed
