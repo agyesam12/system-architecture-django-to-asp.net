@@ -1,0 +1,114 @@
+using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ArtisanMarketplace.Models
+{
+    /// <summary>
+    /// Extended User model inheriting from IdentityUser
+    /// Serves as the base authentication model for all users in the Artisan-User Marketplace
+    /// </summary>
+    [Table("Users")]
+    public class User : IdentityUser<Guid>
+    {
+        public User()
+        {
+            Id = Guid.NewGuid();
+            DateJoined = DateTime.UtcNow;
+            LastUpdated = DateTime.UtcNow;
+            IsActive = true;
+            IsVerified = false;
+        }
+
+        // Override Id to use Guid instead of string
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public override Guid Id { get; set; }
+
+        // Email is already in IdentityUser, but we'll add validation
+        [Required]
+        [EmailAddress]
+        [StringLength(256)]
+        public override string Email { get; set; } = string.Empty;
+
+        // Phone number validation (IdentityUser already has PhoneNumber)
+        [Phone]
+        [StringLength(17)]
+        [RegularExpression(@"^\+?1?\d{9,15}$", 
+            ErrorMessage = "Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")]
+        public override string? PhoneNumber { get; set; }
+
+        // Additional User Properties
+        [Required]
+        [StringLength(255)]
+        [Display(Name = "Full Name")]
+        public string FullName { get; set; } = string.Empty;
+
+        [StringLength(500)]
+        [Display(Name = "Profile Picture Path")]
+        public string? ProfilePicture { get; set; }
+
+        [Display(Name = "Date Joined")]
+        public DateTime DateJoined { get; set; }
+
+        [Display(Name = "Last Updated")]
+        public DateTime LastUpdated { get; set; }
+
+        // IsActive (custom property, different from IdentityUser.LockoutEnabled)
+        [Display(Name = "Is Active")]
+        public bool IsActive { get; set; }
+
+        [Display(Name = "Is Verified")]
+        public bool IsVerified { get; set; }
+
+        [StringLength(500)]
+        [DataType(DataType.MultilineText)]
+        public string? Bio { get; set; }
+
+        // Address Fields
+        [StringLength(255)]
+        public string? Address { get; set; }
+
+        [StringLength(100)]
+        public string? City { get; set; }
+
+        [StringLength(100)]
+        public string? State { get; set; }
+
+        [StringLength(100)]
+        public string? Country { get; set; }
+
+        [StringLength(20)]
+        [Display(Name = "Postal Code")]
+        public string? PostalCode { get; set; }
+
+        // Navigation Properties
+        public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
+        public virtual ArtisanProfile? ArtisanProfile { get; set; }
+        public virtual ICollection<UserFeed> JobRequests { get; set; } = new List<UserFeed>();
+        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public virtual ICollection<Reaction> Reactions { get; set; } = new List<Reaction>();
+        public virtual ICollection<Report> ReportsMade { get; set; } = new List<Report>();
+        public virtual ICollection<Report> ReportsReceived { get; set; } = new List<Report>();
+        public virtual ICollection<Report> ReportsReviewed { get; set; } = new List<Report>();
+
+        // Helper Methods
+        public string GetFullAddress()
+        {
+            var addressParts = new[] { Address, City, State, Country, PostalCode }
+                .Where(s => !string.IsNullOrWhiteSpace(s));
+            return string.Join(", ", addressParts);
+        }
+
+        public override string ToString()
+        {
+            return $"{FullName} ({Email})";
+        }
+
+        // Update timestamp on save
+        public void UpdateTimestamp()
+        {
+            LastUpdated = DateTime.UtcNow;
+        }
+    }
+}
