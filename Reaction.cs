@@ -4,10 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ArtisanMarketplace.Models
 {
-    // ==================== Reaction Model ====================
-    /// <summary>
-    /// Unified reaction system for likes/dislikes on feeds
-    /// </summary>
+    
     [Table("reactions")]
     public class Reaction
     {
@@ -15,24 +12,24 @@ namespace ArtisanMarketplace.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        // User who made the reaction
+        
         [Required]
         public Guid UserId { get; set; }
         
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
 
-        // Reaction type
+        
         [Required]
         [MaxLength(10)]
         public ReactionType ReactionType { get; set; }
 
-        // Content type being reacted to
+        
         [Required]
         [MaxLength(20)]
         public ContentType ContentType { get; set; }
 
-        // Polymorphic relationships (nullable foreign keys)
+       
         public Guid? UserFeedId { get; set; }
         
         [ForeignKey("UserFeedId")]
@@ -48,18 +45,18 @@ namespace ArtisanMarketplace.Models
         [ForeignKey("CommentId")]
         public virtual Comment Comment { get; set; }
 
-        // Timestamp
+        
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        // Constructor
+        
         public Reaction()
         {
             Id = Guid.NewGuid();
         }
     }
 
-    // ==================== Enums ====================
+    
     public enum ReactionType
     {
         [Display(Name = "Like")]
@@ -81,11 +78,7 @@ namespace ArtisanMarketplace.Models
         Comment
     }
 
-    // ==================== Supporting Models (Partial - for context) ====================
     
-    /// <summary>
-    /// User Feed model - partial definition for reaction relationships
-    /// </summary>
     [Table("user_feeds")]
     public partial class UserFeed
     {
@@ -106,7 +99,7 @@ namespace ArtisanMarketplace.Models
         public int DislikesCount { get; set; } = 0;
         public int ReportsCount { get; set; } = 0;
 
-        // Navigation properties
+        
         public virtual ICollection<Reaction> Reactions { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
 
@@ -117,9 +110,7 @@ namespace ArtisanMarketplace.Models
         }
     }
 
-    /// <summary>
-    /// Artisan Feed model - partial definition for reaction relationships
-    /// </summary>
+    
     [Table("artisan_feeds")]
     public partial class ArtisanFeed
     {
@@ -133,7 +124,7 @@ namespace ArtisanMarketplace.Models
         [MaxLength(255)]
         public string Title { get; set; }
 
-        // Engagement metrics
+        
         public int ViewsCount { get; set; } = 0;
         public int CommentsCount { get; set; } = 0;
         public int LikesCount { get; set; } = 0;
@@ -141,7 +132,7 @@ namespace ArtisanMarketplace.Models
         public int ReportsCount { get; set; } = 0;
         public int SharesCount { get; set; } = 0;
 
-        // Navigation properties
+        
         public virtual ICollection<Reaction> Reactions { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
 

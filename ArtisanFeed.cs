@@ -3,10 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ArtisanMarketplace.Models
 {
-    /// <summary>
-    /// Feed model for artisans showcasing their services and promotions
-    /// Artisans can post about their work, offers, and availability
-    /// </summary>
+
     [Table("ArtisanFeeds")]
     [Index(nameof(Slug), IsUnique = true)]
     [Index(nameof(PostType), nameof(CreatedAt))]
@@ -257,9 +254,7 @@ namespace ArtisanMarketplace.Models
         }
     }
 
-    /// <summary>
-    /// Constants for Post Types
-    /// </summary>
+    
     public static class PostTypes
     {
         public const string Service = "SERVICE";

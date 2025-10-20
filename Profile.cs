@@ -3,10 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ArtisanMarketplace.Models
 {
-    /// <summary>
-    /// Profile model specifically for Artisans/Contractors
-    /// Contains business and professional information
-    /// </summary>
+
     [Table("ArtisanProfiles")]
     [Index(nameof(Slug), IsUnique = true)]
     public class ArtisanProfile
@@ -144,7 +141,6 @@ namespace ArtisanMarketplace.Models
         public virtual ICollection<ArtisanFeed> FeedPosts { get; set; } = new List<ArtisanFeed>();
         public virtual ICollection<ArtisanProposal> Proposals { get; set; } = new List<ArtisanProposal>();
 
-        // Helper Methods
         public List<string> GetServicesAsList()
         {
             return ServicesOffered
@@ -200,9 +196,7 @@ namespace ArtisanMarketplace.Models
         }
     }
 
-    /// <summary>
-    /// Constants for Experience Levels
-    /// </summary>
+    
     public static class ExperienceLevels
     {
         public const string Beginner = "BEGINNER";
@@ -236,9 +230,7 @@ namespace ArtisanMarketplace.Models
         }
     }
 
-    /// <summary>
-    /// Constants for Availability Status
-    /// </summary>
+    
     public static class AvailabilityStatuses
     {
         public const string Available = "AVAILABLE";
